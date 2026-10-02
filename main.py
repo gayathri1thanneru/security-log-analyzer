@@ -23,12 +23,10 @@ def main():
     Run the Security Log Analyzer.
     """
 
-    # Create command-line argument parser
     parser = argparse.ArgumentParser(
         description="Security Log Analyzer"
     )
 
-    # Allow the user to choose the brute-force detection threshold
     parser.add_argument(
         "--threshold",
         type=int,
@@ -38,29 +36,23 @@ def main():
 
     args = parser.parse_args()
 
-    # Load authentication log data
     events = load_log_file(LOG_FILE)
 
-    # Count failed login attempts
     failed_logins = detect_failed_logins(events)
 
-    # Detect possible brute-force attacks
     alerts = detect_brute_force(
         events,
         threshold=args.threshold
     )
 
-    # Count total authentication events
     total_events = len(events)
 
-    # Display security summary
     generate_summary(
         total_events,
         failed_logins,
         alerts
     )
 
-    # Save security report
     save_report(
         total_events,
         failed_logins,
